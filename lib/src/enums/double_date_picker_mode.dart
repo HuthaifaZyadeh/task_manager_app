@@ -1,0 +1,4 @@
+enum DoubleDatePickerMode {
+  date,
+  dateTime,
+}

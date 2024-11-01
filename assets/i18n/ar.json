@@ -1,0 +1,13 @@
+{
+  "no_connection": "لا يوجد اتصال بالإنترنت",
+  "login": "تسجيل الدخول",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة السر",
+  "email_validation_message": "الرجاء إدخال بريد الكتروني صحيح",
+  "password_validation_message": "طول كلمة المرور يجب ان يكون 8 قلى الأقل",
+  "name_validation_message": "يجب ان يتكون الاسم من ثلاثة حروف على الاقل",
+  "sign_in": "تسجيل الدخول",
+  "phone_validation_message": "الرجاء إدخال رقم هاتف صحيح",
+  "search_country": "البحث عن بلد",
+  "phone_number": "رقم الهاتف"
+}
