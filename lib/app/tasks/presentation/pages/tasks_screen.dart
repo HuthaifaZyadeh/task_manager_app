@@ -56,7 +56,11 @@ class TasksScreen extends StatelessWidget {
         child: CustomScrollView(
           controller: bloc.scrollController,
           slivers: [
-            TasksAppBar(userImage: getIt<LocalStorage>().appUser!.image),
+            TasksAppBar(
+                userImage: getIt<LocalStorage>()
+                    .appUser!
+                    .image
+                    .replaceFirst('128', '512')),
             BlocBuilder<TasksBloc, TasksState>(
               builder: (context, state) {
                 return Skeletonizer.sliver(

@@ -19,14 +19,11 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future<Either<Failure, AppUser>> login(LoginParameters parameters) async {
     try {
-      final response = await baseAuthDataSource.login(parameters);
-      if (response.hasSuccess) {
-        await getIt<LocalStorage>().storeAppUser(response.data!);
-        await getIt<LocalStorage>().storeToken(response.data!.accessToken);
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      final appUser = await baseAuthDataSource.login(parameters);
+      await getIt<LocalStorage>().storeAppUser(appUser);
+      await getIt<LocalStorage>().storeToken(appUser.accessToken);
+
+      return Right(appUser);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }
@@ -35,12 +32,8 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future<Either<Failure, AppUser>> me() async {
     try {
-      final response = await baseAuthDataSource.me();
-      if (response.hasSuccess) {
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      final appUser = await baseAuthDataSource.me();
+      return Right(appUser);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }
@@ -50,12 +43,8 @@ class AuthRepository extends BaseAuthRepository {
   Future<Either<Failure, UserTokens>> refreshToken(
       RefreshTokenParameters parameters) async {
     try {
-      final response = await baseAuthDataSource.refreshToken(parameters);
-      if (response.hasSuccess) {
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      final tokens = await baseAuthDataSource.refreshToken(parameters);
+      return Right(tokens);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }

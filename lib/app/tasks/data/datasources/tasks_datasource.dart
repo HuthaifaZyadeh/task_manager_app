@@ -4,45 +4,105 @@ import 'package:simple_do/app/tasks/domain/usecases/get_tasks_usecase.dart';
 import 'package:simple_do/app/tasks/domain/usecases/view_task_usecase.dart';
 import 'package:simple_do/src/core/data_sources/remote/services/tasks_services.dart';
 
-import '../../../../../src/di/services_locator.dart';
-import '../../../../src/core/data_sources/remote/api_response.dart';
+import '../../../../src/core/data_sources/remote/error_response.dart';
+import '../../../../src/error/exceptions.dart';
 import '../../domain/usecases/delete_task_usecase.dart';
 import '../../domain/usecases/update_task_usecase.dart';
 import '../models/task_model.dart';
 
 abstract class BaseTasksDataSource {
-  Future<ApiResponse<TasksModel>> getTasks(GetTasksParameters parameters);
-  Future<ApiResponse<TaskModel>> viewTask(ViewTaskParameters parameters);
-  Future<ApiResponse<TaskModel>> addTask(AddTaskParameters parameters);
-  Future<ApiResponse<TaskModel>> updateTask(UpdateTaskParameters parameters);
-  Future<ApiResponse<TaskModel>> deleteTask(DeleteTaskParameters parameters);
+  Future<TasksModel> getTasks(GetTasksParameters parameters);
+  Future<TaskModel> viewTask(ViewTaskParameters parameters);
+  Future<TaskModel> addTask(AddTaskParameters parameters);
+  Future<TaskModel> updateTask(UpdateTaskParameters parameters);
+  Future<TaskModel> deleteTask(DeleteTaskParameters parameters);
 }
 
 class TasksDataSource extends BaseTasksDataSource {
-  TasksServices service = getIt<TasksServices>();
+  TasksServices service;
+  TasksDataSource({required this.service});
 
   @override
-  Future<ApiResponse<TaskModel>> addTask(AddTaskParameters parameters) {
-    return service.addTask(parameters.toMap());
+  Future<TaskModel> addTask(AddTaskParameters parameters) async {
+    final response = await service.addTask(parameters.toMap());
+    if (response.hasSuccess) {
+      return response.data!;
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorResponse(
+          data: response.data,
+          message: response.message ?? '',
+          status: response.status,
+        ),
+      );
+    }
   }
 
   @override
-  Future<ApiResponse<TaskModel>> deleteTask(DeleteTaskParameters parameters) {
-    return service.deleteTask(parameters.taskId);
+  Future<TaskModel> deleteTask(DeleteTaskParameters parameters) async {
+    final response = await service.deleteTask(parameters.taskId);
+    if (response.hasSuccess) {
+      return response.data!;
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorResponse(
+          data: response.data,
+          message: response.message ?? '',
+          status: response.status,
+        ),
+      );
+    }
   }
 
   @override
-  Future<ApiResponse<TasksModel>> getTasks(GetTasksParameters parameters) {
-    return service.getTasks(limit: parameters.limit, skip: parameters.skip);
+  Future<TasksModel> getTasks(GetTasksParameters parameters) async {
+    final response = await service.getTasks(
+      skip: parameters.skip,
+      limit: parameters.limit,
+    );
+    if (response.hasSuccess) {
+      return response.data!;
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorResponse(
+          data: response.data,
+          message: response.message ?? '',
+          status: response.status,
+        ),
+      );
+    }
   }
 
   @override
-  Future<ApiResponse<TaskModel>> updateTask(UpdateTaskParameters parameters) {
-    return service.updateTask(parameters.taskId, parameters.toMap());
+  Future<TaskModel> updateTask(UpdateTaskParameters parameters) async {
+    final response =
+        await service.updateTask(parameters.taskId, parameters.toMap());
+    if (response.hasSuccess) {
+      return response.data!;
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorResponse(
+          data: response.data,
+          message: response.message ?? '',
+          status: response.status,
+        ),
+      );
+    }
   }
 
   @override
-  Future<ApiResponse<TaskModel>> viewTask(ViewTaskParameters parameters) {
-    return service.viewTask(parameters.taskId);
+  Future<TaskModel> viewTask(ViewTaskParameters parameters) async {
+    final response = await service.viewTask(parameters.taskId);
+    if (response.hasSuccess) {
+      return response.data!;
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorResponse(
+          data: response.data,
+          message: response.message ?? '',
+          status: response.status,
+        ),
+      );
+    }
   }
 }

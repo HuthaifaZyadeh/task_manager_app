@@ -43,8 +43,10 @@ class ServicesLocator {
   }
 
   static _injectDataSources() async {
-    getIt.registerLazySingleton<BaseAuthDataSource>(() => AuthDataSource());
-    getIt.registerLazySingleton<BaseTasksDataSource>(() => TasksDataSource());
+    getIt.registerLazySingleton<BaseAuthDataSource>(
+        () => AuthDataSource(service: getIt<AuthServices>()));
+    getIt.registerLazySingleton<BaseTasksDataSource>(
+        () => TasksDataSource(service: getIt<TasksServices>()));
     getIt.registerLazySingleton<BaseLocalTasksDataSource>(
         () => LocalTasksDataSource());
   }

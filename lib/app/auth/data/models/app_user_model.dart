@@ -17,6 +17,18 @@ class AppUserModel extends AppUser {
     required super.refreshToken,
   });
 
+  factory AppUserModel.testModel() => const AppUserModel(
+        id: -1,
+        username: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        gender: '',
+        image: '',
+        accessToken: '',
+        refreshToken: '',
+      );
+
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>
       _$AppUserModelFromJson(json);
 

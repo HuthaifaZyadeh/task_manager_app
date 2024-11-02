@@ -128,3 +128,9 @@ flutter build apk --flavor production -t lib/main.dart
   constants, and any helper files.
 
 ---
+
+# Testing
+Only few basic simple test cases could be made on time.
+- **Auth** : LoginUseCase - AppUserModel Serilization
+
+---

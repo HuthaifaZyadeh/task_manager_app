@@ -38,13 +38,9 @@ class TasksRepository extends BaseTasksRepository {
       }
 
       // Fetch live
-      final response = await baseTasksDataSource.getTasks(parameters);
-      if (response.hasSuccess) {
-        baseLocalTasksDataSource.saveTasks(response.data!);
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      final tasks = await baseTasksDataSource.getTasks(parameters);
+      baseLocalTasksDataSource.saveTasks(tasks);
+      return Right(tasks);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }
@@ -58,11 +54,7 @@ class TasksRepository extends BaseTasksRepository {
       ViewTaskParameters parameters) async {
     try {
       final response = await baseTasksDataSource.viewTask(parameters);
-      if (response.hasSuccess) {
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      return Right(response);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }
@@ -73,11 +65,7 @@ class TasksRepository extends BaseTasksRepository {
       AddTaskParameters parameters) async {
     try {
       final response = await baseTasksDataSource.addTask(parameters);
-      if (response.hasSuccess) {
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      return Right(response);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }
@@ -88,11 +76,7 @@ class TasksRepository extends BaseTasksRepository {
       UpdateTaskParameters parameters) async {
     try {
       final response = await baseTasksDataSource.updateTask(parameters);
-      if (response.hasSuccess) {
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      return Right(response);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }
@@ -103,11 +87,7 @@ class TasksRepository extends BaseTasksRepository {
       DeleteTaskParameters parameters) async {
     try {
       final response = await baseTasksDataSource.deleteTask(parameters);
-      if (response.hasSuccess) {
-        return Right(response.data!);
-      } else {
-        return Left(ServerFailure(response.message ?? 'ERROR'));
-      }
+      return Right(response);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.errorMessageModel.message));
     }

@@ -23,6 +23,18 @@ class AppUser extends Equatable {
     required this.refreshToken,
   });
 
+  factory AppUser.testEntity() => const AppUser(
+        id: -1,
+        username: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        gender: '',
+        image: '',
+        accessToken: '',
+        refreshToken: '',
+      );
+
   @override
   List<Object?> get props => [
         id,
