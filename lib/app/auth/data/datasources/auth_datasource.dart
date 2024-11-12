@@ -1,6 +1,5 @@
 import 'package:simple_do/app/auth/data/models/user_tokens_model.dart';
-import 'package:simple_do/app/auth/domain/usecases/refresh_token_usecase.dart';
-
+import '../../domain/usecases/refresh_token_usecase.dart';
 import '../../../../../src/core/data_sources/remote/services/auth_services.dart';
 import '../../../../src/core/data_sources/remote/error_response.dart';
 import '../../../../src/error/exceptions.dart';
